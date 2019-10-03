@@ -36,7 +36,6 @@ app.get('/nip/', (req, res) => {
             })
         })
         .catch(err => {
-            console.log(`it's an error`)
             res.render("nipRes/index", {
                 resData: err
             })

@@ -22,31 +22,25 @@ app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, "public")));
 
 // Index Route
-app.get('/', (req, res) => {
-    res.render("index")
-})
-
 app.get('/nip/', (req, res) => {
-
-    apiRes.getNameBasedOnNip(req.query.nipInput)
+    res.render('./views/nipRes')
+    /*
+    apiRes.getNameBasedOnNip()
         .then(data => {
             //res.json({ message: 'Request received!', data })
-            res.render("nipRes/index", {
+            res.render("index", {
                 resData: data
             })
         })
-        .catch(err => {
-            console.log(`it's an error`)
-            res.render("nipRes/index", {
-                resData: err
-            })
-        })
+        */
+})
 
-    // //console.log(req.query)
-    // let resDatas = req.query
-    // res.render('nipRes/index', {
-    //     resData: resDatas
-    // })
+app.get('/nip/', (req, res) => {
+    console.log(req.query)
+    let resDatas = req.query
+    res.render('index', {
+        resData: resDatas
+    })
 
 })
 

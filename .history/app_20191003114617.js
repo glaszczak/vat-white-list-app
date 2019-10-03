@@ -28,25 +28,19 @@ app.get('/', (req, res) => {
 
 app.get('/nip/', (req, res) => {
 
-    apiRes.getNameBasedOnNip(req.query.nipInput)
+    apiRes.getNameBasedOnNip()
         .then(data => {
             //res.json({ message: 'Request received!', data })
             res.render("nipRes/index", {
                 resData: data
             })
         })
-        .catch(err => {
-            console.log(`it's an error`)
-            res.render("nipRes/index", {
-                resData: err
-            })
-        })
 
-    // //console.log(req.query)
-    // let resDatas = req.query
-    // res.render('nipRes/index', {
-    //     resData: resDatas
-    // })
+    //console.log(req.query)
+    let resDatas = req.query
+    res.render('nipRes/index', {
+        resData: resDatas
+    })
 
 })
 

@@ -11,14 +11,14 @@ https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
 // let nip = 5251048432 //5251048432, 5471968502
 // let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`
 
-function getNameBasedOnNip(nip) {
+function getNameBasedOnNip() {
+    let nip = 5251048432 //5251048432, 5471968502
     let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`
     return axios.get(url)
         .then(res => {
+            //console.log(res.data.result)
             return res.data.result.subject
-        })
-        .catch(err => {
-            return err
+            //respName = res.data.result.subject.name
         })
 }
 
