@@ -14,7 +14,6 @@ const url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`
 function getNameBasedOnNip() {
     return axios.get(url)
         .then(res => {
-            console.log(res.data.result)
             return res.data.result.subject
             //respName = res.data.result.subject.name
         })
