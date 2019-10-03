@@ -27,10 +27,12 @@ function getNameBasedOnNip(nip) {
 
 async function getTestDataFromFile() {
   try {
-    let resData = [];
+    let resData = [{};
 
     //add each line into array
-    return fs.readFileSync("public/text.txt", "utf-8").split("\r\n");
+    return JSON.parse(
+      fs.readFileSync("public/text.txt", "utf-8").split("\r\n")
+    );
     //resData.forEach(e => console.log(e))
     //console.log(resData)
 

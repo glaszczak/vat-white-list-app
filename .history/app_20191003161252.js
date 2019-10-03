@@ -34,7 +34,7 @@ app.get('/nip/', async (req, res) => {
             console.log(data)
             res.send(data)
         })
-
+    fdfad
     //console.log(data)
 
     // apiRes.getNameBasedOnNip(req.query.nipInput)

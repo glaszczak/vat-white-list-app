@@ -33,6 +33,7 @@ app.get('/nip/', async (req, res) => {
         .then(data => {
             console.log(data)
             res.send(data)
+
         })
 
     //console.log(data)

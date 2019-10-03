@@ -32,10 +32,10 @@ app.get('/nip/', async (req, res) => {
     await apiRes.getTestDataFromFile()
         .then(data => {
             console.log(data)
-            res.send(data)
         })
 
     //console.log(data)
+    res.send(resData)
 
     // apiRes.getNameBasedOnNip(req.query.nipInput)
     //     .then(data => {

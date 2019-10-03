@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require('body-parser')
 const exphbs = require("express-handlebars");
 const apiRes = require('./controllers/apiFunctions')
+const fs = require('fs')
 
 const app = express()
 
@@ -26,16 +27,10 @@ app.get('/', (req, res) => {
     res.render("index")
 })
 
-app.get('/nip/', async (req, res) => {
+app.get('/nip/', (req, res) => {
 
-    //let resData = await apiRes.getTestDataFromFile()
-    await apiRes.getTestDataFromFile()
-        .then(data => {
-            console.log(data)
-            res.send(data)
-        })
-
-    //console.log(data)
+    let resData = apiRes.getTestDataFromFile()
+    res.send(resData)
 
     // apiRes.getNameBasedOnNip(req.query.nipInput)
     //     .then(data => {
@@ -63,5 +58,3 @@ const port = process.env.PORT || 5000
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
 })
-
-//apiRes.writeIntoCSV()

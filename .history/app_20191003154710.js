@@ -26,16 +26,11 @@ app.get('/', (req, res) => {
     res.render("index")
 })
 
-app.get('/nip/', async (req, res) => {
+app.get('/nip/', (req, res) => {
 
-    //let resData = await apiRes.getTestDataFromFile()
-    await apiRes.getTestDataFromFile()
-        .then(data => {
-            console.log(data)
-            res.send(data)
-        })
-
-    //console.log(data)
+    let resData = apiRes.getTestDataFromFile()
+    console.log(resdata)
+    res.send(resData)
 
     // apiRes.getNameBasedOnNip(req.query.nipInput)
     //     .then(data => {
