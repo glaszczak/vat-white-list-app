@@ -13,7 +13,7 @@ https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
 // let nip = 5251048432 //5251048432, 5471968502
 // let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`
 
-async function getResBasedOnNip(nip) {
+function getNameBasedOnNip(nip) {
   let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`;
   return axios
     .get(url)
@@ -25,7 +25,7 @@ async function getResBasedOnNip(nip) {
     });
 }
 
-async function getDataFromFileAsJSON() {
+async function getTestDataFromFile() {
   try {
     let resData = [];
 
@@ -75,6 +75,6 @@ function writeIntoCSV() {
     .pipe(ws);
 }
 
-module.exports.getResBasedOnNip = getResBasedOnNip;
-module.exports.getDataFromFileAsJSON = getDataFromFileAsJSON;
+module.exports.getNameBasedOnNip = getNameBasedOnNip;
+module.exports.getTestDataFromFile = getTestDataFromFile;
 module.exports.writeIntoCSV = writeIntoCSV;

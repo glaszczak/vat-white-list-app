@@ -45,21 +45,10 @@ app.get('/nip/', async (req, res) => {
 // Get JSON Route
 app.get('/getJSON', async (req, res) => {
 
-    let arrRes = await apiRes.getDataFromFileAsJSON()
-
-    let resData = []
-
-    await arrRes.forEach(async (el) => {
-
-        let resName = await apiRes.getResBasedOnNip(el)
-        console.log(resName.name)
-        resData.push({ nip: el, name: resName.name })
-        //console.log(resName.accountNumbers)
-
-    })
+    let jsonData = await apiRes.getDataFromFileAsJSON()
+    console.log(jsonData)
 
 
-    res.send(resData)
 
 
 

@@ -49,17 +49,13 @@ app.get('/getJSON', async (req, res) => {
 
     let resData = []
 
-    await arrRes.forEach(async (el) => {
-
-        let resName = await apiRes.getResBasedOnNip(el)
-        console.log(resName.name)
-        resData.push({ nip: el, name: resName.name })
-        //console.log(resName.accountNumbers)
-
+    arrRes.forEach(el => {
+        resData.push({ nip: el })
     })
 
+    console.log(resData)
 
-    res.send(resData)
+
 
 
 
