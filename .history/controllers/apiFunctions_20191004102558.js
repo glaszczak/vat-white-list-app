@@ -1,7 +1,6 @@
 const axios = require("axios");
-const fs = require("fs");
+const fetch = require("node-fetch")
 const readline = require("readline");
-const csv = require("fast-csv");
 
 /*
 api url:  (bankAccount?date)
@@ -12,6 +11,25 @@ https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
 
 // let nip = 5251048432 //5251048432, 5471968502
 // let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`
+
+async function gedDataFetch(nip) {
+
+  let resData
+  let promise = fetch(`https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`)
+  await promise.then((res) => {
+    return res.json()
+  }).then((json) => {
+    // console.log(json.result.subject.name)
+    resData = json.result.subject.name
+  })
+  return resDat
+
+
+
+
+
+}
+
 
 async function getResBasedOnNip(nip) {
   let url = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=2019-10-01`;
@@ -48,33 +66,7 @@ async function getDataFromFileAsJSON() {
   }
 }
 
-function writeIntoCSV() {
-  const data = [
-    {
-      name: "John",
-      surname: "Snow",
-      age: 26
-    },
-    {
-      name: "Clair",
-      surname: "White",
-      age: 33
-    },
-    {
-      name: "Fancy",
-      surname: "Brown",
-      age: 78
-    }
-  ];
-
-  ws = fs.createWriteStream("fileName.csv");
-  csv
-    .write(data, {
-      headers: true
-    })
-    .pipe(ws);
-}
 
 module.exports.getResBasedOnNip = getResBasedOnNip;
 module.exports.getDataFromFileAsJSON = getDataFromFileAsJSON;
-module.exports.writeIntoCSV = writeIntoCSV;
+module.exports.gedDataFetch = gedDataFetch;
