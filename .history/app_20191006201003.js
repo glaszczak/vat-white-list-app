@@ -126,7 +126,7 @@ app.post('/', async (req, res) => {
                     })
 
                     // Delete provided files
-                    deleteFile(directory, filename)
+                    //deleteFile(directory, filename)
 
                 } catch (err) {
                     //Error

@@ -82,7 +82,7 @@ app.use(upload())
 app.post('/', async (req, res) => {
 
     // const directory = __dirname
-    const directory = `${__dirname}/files`
+    const directory = `${__dirname}`
     let getToday = getTodayDate()
 
     if (req.files) {
@@ -126,7 +126,7 @@ app.post('/', async (req, res) => {
                     })
 
                     // Delete provided files
-                    deleteFile(directory, filename)
+                    //deleteFile(directory, filename)
 
                 } catch (err) {
                     //Error
