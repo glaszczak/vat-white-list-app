@@ -85,8 +85,10 @@ app.get('/nip/', async (req, res) => {
 app.use(upload())
 app.post('/', async (req, res) => {
 
-    const directory = `${__dirname}/public/`
+    const directory = './public/'
     let getToday = getTodayDate()
+    console.log(__dirname)
+
     if (req.files) {
         const file = req.files.filename,
             filename = file.name

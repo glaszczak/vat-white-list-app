@@ -85,59 +85,60 @@ app.get('/nip/', async (req, res) => {
 app.use(upload())
 app.post('/', async (req, res) => {
 
-    const directory = `${__dirname}/public/`
+    const directory = `${__dirname}.\public\`
     let getToday = getTodayDate()
+
     if (req.files) {
         const file = req.files.filename,
             filename = file.name
-        file.mv(`${directory}${filename}`, async (err, ) => {
+        file.mv(`${ directory }${ filename }`, async (err, ) => {
             if (err) {
-                req.flash('error_msg', `Error while uploading file. Wrong directory: ${directory}`)
+                req.flash('error_msg', `Error while uploading file.Wrong directory: ${ directory } `)
                 res.redirect('/')
             }
             else {
                 try {
-                    // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
-                    let resData = fs.readFileSync(`${directory}${filename}`, "utf-8").split("\r\n");
+                    // let resData = fs.readFileSync(`${ directory } ${ fileName } `, "utf-8").split("\r\n");
+                    let resData = fs.readFileSync(`${ directory } ${ filename } `, "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
                         const response = await axios({
                             url: `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${getToday}`,
-                            method: 'GET'
-                        })
+    method: 'GET'
+})
 
-                        if (response.data) {
-                            return {
-                                nip: nip,
-                                name: response.data.result.subject.name,
-                                workingAddress: response.data.result.subject.workingAddress,
-                                status: response.data.result.subject.statusVat,
-                                accountNumbers: response.data.result.subject.accountNumbers
-                            }
-                        }
+if (response.data) {
+    return {
+        nip: nip,
+        name: response.data.result.subject.name,
+        workingAddress: response.data.result.subject.workingAddress,
+        status: response.data.result.subject.statusVat,
+        accountNumbers: response.data.result.subject.accountNumbers
+    }
+}
                     })
 
-                    // Run all promises
-                    const results = await Promise.all(promises)
+// Run all promises
+const results = await Promise.all(promises)
 
-                    // Success
-                    req.flash('success_msg', 'NIPs checked')
-                    res.render("nipRes/index", {
-                        resData: results
-                    })
+// Success
+req.flash('success_msg', 'NIPs checked')
+res.render("nipRes/index", {
+    resData: results
+})
 
-                    // Delete provided files
-                    deleteAllFiles()
+// Delete provided files
+deleteAllFiles()
 
                 }
                 catch (err) {
-                    //Error
-                    req.flash('error_msg', 'Error while uploading file1')
-                    res.redirect('/')
+    //Error
+    req.flash('error_msg', 'Error while uploading file1')
+    res.redirect('/')
 
-                    // Delete provided files
-                    deleteAllFiles()
-                }
+    // Delete provided files
+    deleteAllFiles()
+}
             }
         })
     }

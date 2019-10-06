@@ -87,6 +87,7 @@ app.post('/', async (req, res) => {
 
     const directory = `${__dirname}/public/`
     let getToday = getTodayDate()
+
     if (req.files) {
         const file = req.files.filename,
             filename = file.name
