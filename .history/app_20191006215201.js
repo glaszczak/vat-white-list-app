@@ -7,7 +7,6 @@ const fs = require("fs");
 const upload = require('express-fileupload')
 const flash = require("connect-flash");
 const session = require('express-session')
-var parseurl = require('parseurl')
 const files = require('./controllers/files')
 const app = express()
 
