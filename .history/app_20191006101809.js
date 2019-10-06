@@ -91,6 +91,7 @@ app.post('/', async (req, res) => {
         const file = req.files.filename,
             filename = file.name
 
+        console.log(req.files)
         file.mv(`${directory}${filename}`, async (err, ) => {
             if (err) {
                 req.flash('error_msg', `Error while uploading file. Directory: ${directory}`)
