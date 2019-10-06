@@ -31,12 +31,7 @@ app.use(bodyParser.json())
 //         saveUninitialized: true
 //     })
 // );
-// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-}))
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
 app.use(flash())
 
 // Static folder
