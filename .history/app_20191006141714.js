@@ -151,39 +151,34 @@ app.listen(port, () => {
 
 function deleteFile(filePath, fileName) {
 
-    //const directory = `${filePath}/${fileName}`
-    fs.readdir(filePath, (err, files) => {
-        if (err) throw err
-        fs.unlink(path.join(filePath, fileName), err => {
-            if (err) throw err
-        })
+    const directory = `${filePath}/${fileName}`
+    //Delete uploaded file
+    fs.readdir(directory, (err, files) => {
+                fs.unlink(path.join(filePath, fileName), err => {
 
-    })
 
-    //Delete all uploaded files
-    // fs.readdir(directory, (err, files) => {
-    //     if (err) throw err
-    //     for (const file of files) {
-    //         fs.unlink(path.join(directory, file), err => {
-    //             if (err) throw err
-    //         })
-    //     }
-    // })
-}
+                    if (err) throw err
+                    for (const file of files) {
+                        fs.unlink(path.join(directory, file), err => {
+                            if (err) throw err
+                        })
+                    }
+                })
+            }
 
-function getTodayDate() {
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1; //January is 0!
+            function getTodayDate() {
+                let today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth() + 1; //January is 0!
 
-    const yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    //const today = dd + '/' + mm + '/' + yyyy;
-    const result = `${yyyy}-${mm}-${dd}`;
-    return result
-}
+                const yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                //const today = dd + '/' + mm + '/' + yyyy;
+                const result = `${yyyy}-${mm}-${dd}`;
+                return result
+            }

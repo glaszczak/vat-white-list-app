@@ -125,6 +125,8 @@ app.post('/', async (req, res) => {
                     })
 
                     // Delete provided files
+                    console.log(`${directory}/${filename}`)
+
                     deleteFile(directory, filename)
 
                 } catch (err) {
@@ -133,6 +135,8 @@ app.post('/', async (req, res) => {
                     res.redirect('/')
 
                     // Delete provided files
+                    console.log(`${directory}/${filename}`)
+
                     deleteFile(directory, filename)
                 }
             }
@@ -149,26 +153,19 @@ app.listen(port, () => {
 
 //func.writeIntoCSV()
 
+// Delete All files in public directory
 function deleteFile(filePath, fileName) {
 
-    //const directory = `${filePath}/${fileName}`
-    fs.readdir(filePath, (err, files) => {
+    const directory = `${filePath}/${fileName}`
+    //Delete uploaded file
+    fs.readdir(directory, (err, files) => {
         if (err) throw err
-        fs.unlink(path.join(filePath, fileName), err => {
-            if (err) throw err
-        })
-
+        for (const file of files) {
+            fs.unlink(path.join(directory, file), err => {
+                if (err) throw err
+            })
+        }
     })
-
-    //Delete all uploaded files
-    // fs.readdir(directory, (err, files) => {
-    //     if (err) throw err
-    //     for (const file of files) {
-    //         fs.unlink(path.join(directory, file), err => {
-    //             if (err) throw err
-    //         })
-    //     }
-    // })
 }
 
 function getTodayDate() {

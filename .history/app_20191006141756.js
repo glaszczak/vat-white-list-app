@@ -151,10 +151,10 @@ app.listen(port, () => {
 
 function deleteFile(filePath, fileName) {
 
-    //const directory = `${filePath}/${fileName}`
-    fs.readdir(filePath, (err, files) => {
+    const directory = `${filePath}/${fileName}`
+    fs.readdir(directory, (err, files) => {
         if (err) throw err
-        fs.unlink(path.join(filePath, fileName), err => {
+        fs.unlink(path.join(directory, file), err => {
             if (err) throw err
         })
 
