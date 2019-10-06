@@ -31,10 +31,12 @@ app.use(
         saveUninitialized: true
     })
 );
+
 app.use(flash())
 
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
+
 
 // Global variables (for messages )
 app.use((req, res, next) => {
@@ -42,6 +44,8 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash("error_msg");
     next();
 });
+
+
 
 // Index Route
 app.get('/', (req, res) => {
@@ -61,6 +65,7 @@ https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
 
 // Single NIP Check Route
 app.get('/nip/', async (req, res) => {
+    console.log(__dirname)
     let getToday = getTodayDate()
     let url = `https://wl-api.mf.gov.pl/api/search/nip/${req.query.nipInput}?date=${getToday}`;
     await axios.get(url)
@@ -81,17 +86,15 @@ app.get('/nip/', async (req, res) => {
 app.use(upload())
 app.post('/', async (req, res) => {
 
-    const directory = `${__dirname}/public/`
+    const directory = `${__dirname}`
     let getToday = getTodayDate()
-
     if (req.files) {
         const file = req.files.filename,
             filename = file.name
 
         file.mv(`${directory}${filename}`, async (err, ) => {
             if (err) {
-                req.flash('error_msg', `Error while uploading file.
-                                        Directory: ${directory}`)
+                req.flash('error_msg', `Error while uploading file. Directory: ${directory}`)
                 res.redirect('/')
             } else {
                 try {
@@ -152,7 +155,7 @@ app.listen(port, () => {
 // Delete All files in public directory
 function deleteAllFiles() {
 
-    const directory = `${__dirname}/public/`
+    const directory = './public/'
     //Delete uploaded file
     fs.readdir(directory, (err, files) => {
         if (err) throw err

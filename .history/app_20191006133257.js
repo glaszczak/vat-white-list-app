@@ -31,10 +31,12 @@ app.use(
         saveUninitialized: true
     })
 );
+
 app.use(flash())
 
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
+
 
 // Global variables (for messages )
 app.use((req, res, next) => {
@@ -42,6 +44,8 @@ app.use((req, res, next) => {
     res.locals.error_msg = req.flash("error_msg");
     next();
 });
+
+
 
 // Index Route
 app.get('/', (req, res) => {
@@ -81,7 +85,7 @@ app.get('/nip/', async (req, res) => {
 app.use(upload())
 app.post('/', async (req, res) => {
 
-    const directory = `${__dirname}/public/`
+    const directory = __dirname
     let getToday = getTodayDate()
 
     if (req.files) {
@@ -152,7 +156,7 @@ app.listen(port, () => {
 // Delete All files in public directory
 function deleteAllFiles() {
 
-    const directory = `${__dirname}/public/`
+    const directory = './public/'
     //Delete uploaded file
     fs.readdir(directory, (err, files) => {
         if (err) throw err

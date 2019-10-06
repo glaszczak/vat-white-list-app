@@ -81,7 +81,7 @@ app.get('/nip/', async (req, res) => {
 app.use(upload())
 app.post('/', async (req, res) => {
 
-    const directory = `${__dirname}/public/`
+    const directory = __dirname
     let getToday = getTodayDate()
 
     if (req.files) {
@@ -152,7 +152,11 @@ app.listen(port, () => {
 // Delete All files in public directory
 function deleteAllFiles() {
 
-    const directory = `${__dirname}/public/`
+    const directory = $ {
+        __dirname
+    }
+    /public/
+    `
     //Delete uploaded file
     fs.readdir(directory, (err, files) => {
         if (err) throw err
@@ -177,6 +181,14 @@ function getTodayDate() {
         mm = '0' + mm;
     }
     //const today = dd + '/' + mm + '/' + yyyy;
-    const result = `${yyyy}-${mm}-${dd}`;
+    const result = `
+    $ {
+        yyyy
+    } - $ {
+        mm
+    } - $ {
+        dd
+    }
+    `;
     return result
 }
