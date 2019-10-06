@@ -7,7 +7,7 @@ const fs = require("fs");
 const upload = require('express-fileupload')
 const flash = require("connect-flash");
 const session = require('express-session')
-const files = require('./controllers/files')
+
 const app = express()
 
 // Handlebars middleware
@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 
 // Index Route
 app.get('/', (req, res) => {
-    deleteAllFiles()
     res.render("index")
 })
 
@@ -56,6 +55,8 @@ https://wl-api.mf.gov.pl/api/search/bank-account/{bank-account}?date=2019-01-01
 https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
 //let bankAccount = 15114010780000407309001001
 */
+
+
 
 
 // Single NIP Check Route
@@ -118,8 +119,6 @@ app.post('/', async (req, res) => {
                     // Run all promises
                     const results = await Promise.all(promises)
 
-                    files.writeIntoCSV(results)
-
                     // Success
                     // req.flash('success_msg', 'NIPs checked')
                     res.render("nipRes/index", {
@@ -127,11 +126,11 @@ app.post('/', async (req, res) => {
                     })
 
                     // Delete provided files
-                    //deleteFile(directory, filename)
+                    deleteFile(directory, filename)
 
                 } catch (err) {
                     //Error
-                    req.flash('error_msg', 'Error while uploading file')
+                    req.flash('error_msg', 'Error while uploading file1')
                     res.redirect('/')
 
                     // Delete provided files
@@ -143,21 +142,13 @@ app.post('/', async (req, res) => {
 
 })
 
-// Create CSV file
-app.get('/csv', (req, res) => {
-
-    // Save Result.csv on user's desktop
-    const file = `${__dirname}/Result.csv`;
-    res.download(file); // Set disposition and send it.
-    req.flash('success_msg', 'File saved')
-
-})
-
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
 })
+
+//func.writeIntoCSV()
 
 function deleteFile(filePath, fileName) {
 
@@ -180,19 +171,6 @@ function deleteAllFiles() {
             fs.unlink(path.join(directory, file), err => {
                 if (err) throw err
             })
-        }
-    })
-
-    const directory1 = `${__dirname}`
-    //Delete Result.csv file
-    fs.readdir(directory1, (err, files) => {
-        if (err) throw err
-        for (const file of files) {
-            if (file === 'Result.csv') {
-                fs.unlink(path.join(directory1, file), err => {
-                    if (err) throw err
-                })
-            }
         }
     })
 }

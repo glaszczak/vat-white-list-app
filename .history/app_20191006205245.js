@@ -131,7 +131,7 @@ app.post('/', async (req, res) => {
 
                 } catch (err) {
                     //Error
-                    req.flash('error_msg', 'Error while uploading file')
+                    req.flash('error_msg', 'Error while uploading file1')
                     res.redirect('/')
 
                     // Delete provided files
@@ -146,10 +146,7 @@ app.post('/', async (req, res) => {
 // Create CSV file
 app.get('/csv', (req, res) => {
 
-    // Save Result.csv on user's desktop
-    const file = `${__dirname}/Result.csv`;
-    res.download(file); // Set disposition and send it.
-    req.flash('success_msg', 'File saved')
+    files.writeIntoCSV()
 
 })
 
@@ -189,7 +186,7 @@ function deleteAllFiles() {
         if (err) throw err
         for (const file of files) {
             if (file === 'Result.csv') {
-                fs.unlink(path.join(directory1, file), err => {
+                fs.unlink(path.join(directory, file), err => {
                     if (err) throw err
                 })
             }

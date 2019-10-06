@@ -149,7 +149,7 @@ app.get('/csv', (req, res) => {
     // Save Result.csv on user's desktop
     const file = `${__dirname}/Result.csv`;
     res.download(file); // Set disposition and send it.
-    req.flash('success_msg', 'File saved')
+    req.flash('success_msg', 'File saved)
 
 })
 

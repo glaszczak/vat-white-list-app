@@ -1,11 +1,14 @@
 {{#if resData}}
   <div class="accordion" id="accordionExample">
     <div class="container">
-      <form action="/csv">
-        <div class="card card-body mb-3">
-          <input type="submit" value="Get CSV file" class="btn btn-dark mb-3" />
-        </div>
-      </form>
+      <div class="card card-body mb-3">
+        <button
+          action="/csv"
+          type="submit"
+          value="CSV"
+          class="btn btn-dark mb-3"
+        ></button>
+      </div>
       {{#each resData}}
         <div class="card mb-1">
           <div class="card-header" id="heading{{this.nip}}">

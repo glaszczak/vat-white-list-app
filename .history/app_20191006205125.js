@@ -131,7 +131,7 @@ app.post('/', async (req, res) => {
 
                 } catch (err) {
                     //Error
-                    req.flash('error_msg', 'Error while uploading file')
+                    req.flash('error_msg', 'Error while uploading file1')
                     res.redirect('/')
 
                     // Delete provided files
@@ -146,10 +146,7 @@ app.post('/', async (req, res) => {
 // Create CSV file
 app.get('/csv', (req, res) => {
 
-    // Save Result.csv on user's desktop
-    const file = `${__dirname}/Result.csv`;
-    res.download(file); // Set disposition and send it.
-    req.flash('success_msg', 'File saved')
+    files.writeIntoCSV()
 
 })
 
@@ -172,7 +169,7 @@ function deleteFile(filePath, fileName) {
 
 function deleteAllFiles() {
 
-    const directory = `${__dirname}/files`
+    let directory = `${__dirname}/files`
     //Delete all uploaded files
     fs.readdir(directory, (err, files) => {
         if (err) throw err
@@ -183,13 +180,13 @@ function deleteAllFiles() {
         }
     })
 
-    const directory1 = `${__dirname}`
+    directory = `${__dirname}`
     //Delete Result.csv file
-    fs.readdir(directory1, (err, files) => {
+    fs.readdir(directory, (err, files) => {
         if (err) throw err
         for (const file of files) {
-            if (file === 'Result.csv') {
-                fs.unlink(path.join(directory1, file), err => {
+            if (file = 'Result.csv') {
+                fs.unlink(path.join(directory, file), err => {
                     if (err) throw err
                 })
             }

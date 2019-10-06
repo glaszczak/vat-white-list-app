@@ -7,7 +7,7 @@ const fs = require("fs");
 const upload = require('express-fileupload')
 const flash = require("connect-flash");
 const session = require('express-session')
-const files = require('./controllers/files')
+const files = require('./controllers')
 const app = express()
 
 // Handlebars middleware
@@ -118,8 +118,6 @@ app.post('/', async (req, res) => {
                     // Run all promises
                     const results = await Promise.all(promises)
 
-                    files.writeIntoCSV(results)
-
                     // Success
                     // req.flash('success_msg', 'NIPs checked')
                     res.render("nipRes/index", {
@@ -131,7 +129,7 @@ app.post('/', async (req, res) => {
 
                 } catch (err) {
                     //Error
-                    req.flash('error_msg', 'Error while uploading file')
+                    req.flash('error_msg', 'Error while uploading file1')
                     res.redirect('/')
 
                     // Delete provided files
@@ -146,10 +144,7 @@ app.post('/', async (req, res) => {
 // Create CSV file
 app.get('/csv', (req, res) => {
 
-    // Save Result.csv on user's desktop
-    const file = `${__dirname}/Result.csv`;
-    res.download(file); // Set disposition and send it.
-    req.flash('success_msg', 'File saved')
+    files.writeIntoCSV()
 
 })
 
@@ -180,19 +175,6 @@ function deleteAllFiles() {
             fs.unlink(path.join(directory, file), err => {
                 if (err) throw err
             })
-        }
-    })
-
-    const directory1 = `${__dirname}`
-    //Delete Result.csv file
-    fs.readdir(directory1, (err, files) => {
-        if (err) throw err
-        for (const file of files) {
-            if (file === 'Result.csv') {
-                fs.unlink(path.join(directory1, file), err => {
-                    if (err) throw err
-                })
-            }
         }
     })
 }

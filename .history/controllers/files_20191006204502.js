@@ -3,9 +3,9 @@ const csv = require("fast-csv");
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 function writeIntoCSV(data) {
-    //${__dirname}/files/
+
     const csvWriter = createCsvWriter({
-        path: `Result.csv`,
+        path: `${__dirname}/files/Result.csv`,
         header: [
             { id: 'nip', title: 'NIP' },
             { id: 'name', title: 'Name' },
@@ -17,7 +17,7 @@ function writeIntoCSV(data) {
 
     csvWriter
         .writeRecords(data)
-    //.then(() => console.log('The CSV file was written successfully'));
+        .then(() => console.log('The CSV file was written successfully'));
 
 }
 

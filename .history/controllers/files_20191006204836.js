@@ -21,6 +21,12 @@ function writeIntoCSV(data) {
 
 }
 
+function saveFileOnDesktop() {
+
+    const path = `user_home_dir/Desktop`
+
+}
+
 module.exports.writeIntoCSV = writeIntoCSV;
 
 
