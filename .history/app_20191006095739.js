@@ -93,7 +93,8 @@ app.post('/', async (req, res) => {
             filename = file.name
         file.mv(`${directory}${filename}`, async (err, ) => {
             if (err) {
-                req.flash('error_msg', `Error while uploading file. Wrong directory:${directory}`)
+                console.log()
+                req.flash('error_msg', `Error while uploading file. Wrong directory:${}`)
                 res.redirect('/')
             }
             else {
