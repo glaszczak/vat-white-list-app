@@ -125,7 +125,7 @@ app.post('/', async (req, res) => {
                     })
 
                     // Delete provided files
-                    deleteAllFiles()
+                    //deleteAllFiles()
 
                 } catch (err) {
                     //Error
@@ -133,7 +133,7 @@ app.post('/', async (req, res) => {
                     res.redirect('/')
 
                     // Delete provided files
-                    deleteAllFiles()
+                    //deleteAllFiles()
                 }
             }
         })

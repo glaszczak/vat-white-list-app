@@ -119,13 +119,13 @@ app.post('/', async (req, res) => {
                     const results = await Promise.all(promises)
 
                     // Success
-                    // req.flash('success_msg', 'NIPs checked')
+                    req.flash('success_msg', 'NIPs checked')
                     res.render("nipRes/index", {
                         resData: results
                     })
 
                     // Delete provided files
-                    deleteAllFiles()
+                    //deleteAllFiles()
 
                 } catch (err) {
                     //Error
@@ -133,7 +133,7 @@ app.post('/', async (req, res) => {
                     res.redirect('/')
 
                     // Delete provided files
-                    deleteAllFiles()
+                    //deleteAllFiles()
                 }
             }
         })
