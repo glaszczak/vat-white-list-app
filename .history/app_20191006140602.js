@@ -89,7 +89,7 @@ app.post('/', async (req, res) => {
             filename = file.name
 
         file.mv(`${directory}/${filename}`, async (err, ) => {
-            console.log(`${directory}/${filename}`)
+            console.log(`${directory}${filename}`)
             if (err) {
                 req.flash('error_msg', `Error while uploading file.
                                         Directory: ${directory}`)
@@ -97,7 +97,7 @@ app.post('/', async (req, res) => {
             } else {
                 try {
                     // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
-                    let resData = fs.readFileSync(`${directory}/${filename}`, "utf-8").split("\r\n");
+                    let resData = fs.readFileSync(`${directory}${filename}`, "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
                         const response = await axios({
