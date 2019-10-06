@@ -1,0 +1,52 @@
+<div class="container mb-3">
+  <form action="/nip/">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        name="nipInput"
+        placeholder="NIP"
+        aria-label="NIP number"
+        aria-describedby="button-addon2"
+      />
+      <div class="input-group-append">
+        <button type="submit" class="btn btn-outline-secondary">
+          Check NIP
+        </button>
+      </div>
+    </div>
+  </form>
+  <form
+    class="was-validated mb-3"
+    action="/"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        <input
+          type="file"
+          class="custom-file-input"
+          id="validatedCustomFile"
+          aria-describedby="inputGroupFileAddon01"
+          name="filename"
+          required
+        />
+        <label class="custom-file-label" for="validatedCustomFile">
+          Choose file...
+        </label>
+      </div>
+    </div>
+  </form>
+  <form class="mb-3" action="/" method="post" enctype="multipart/form-data">
+    <div class="card card-body">
+      <a href="/getData" class="btn btn-dark btn-block">
+        Get data
+      </a>
+    </div>
+    <div class="card card-body">
+      <input type="file" name="filename" class="mb-3" />
+      <input type="submit" value="Upload" class="btn btn-outline-secondary" />
+    </div>
+  </form>
+</div>
