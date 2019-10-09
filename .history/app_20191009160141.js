@@ -26,19 +26,20 @@ app.use(bodyParser.json())
 
 
 // Express session midleware
-// app.use(
-//     session({
-//         secret: "secret",
-//         resave: true,
-//         saveUninitialized: true
-//     })
-// );
+app.use(
+    session({
+        secret: "secret",
+        resave: true,
+        saveUninitialized: true
+    })
+);
 // app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }))
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-}))
+// app.use(session({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: true
+// }))
+
 app.use(function (req, res, next) {
     if (!req.session.views) {
         req.session.views = {}
@@ -106,19 +107,22 @@ app.post('/', async (req, res) => {
             if (err) {
                 req.flash('error_msg', `Error while uploading file.
                                         Directory: ${directory}`)
-                //res.redirect('/')
+                res.redirect('/')
             } else {
                 try {
+                    // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
-                    const promises = resData.map(async nip => {
+                    resData.forEach(el => console.log(el))
 
-                        console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+                    const promises = resData.map(async nip => {
 
                         const response = await axios({
                             url: `${process.env.API_KEY}${nip}?date=${getToday}`,
                             method: 'GET'
                         })
+                        console.log(url)
+
 
                         if (response.data) {
                             return {
@@ -133,10 +137,6 @@ app.post('/', async (req, res) => {
 
                     // Run all promises
                     const results = await Promise.all(promises)
-
-
-
-
 
                     //files.writeIntoCSV(results)
 
@@ -153,8 +153,7 @@ app.post('/', async (req, res) => {
                     //Error
                     // console.log(err)
                     req.flash('error_msg', 'Error while uploading file.')
-                    res.send(err)
-                    //res.redirect('/')
+                    res.redirect('/')
 
                     // Delete provided files
                     //deleteFile(directory, filename)

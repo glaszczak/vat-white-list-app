@@ -39,6 +39,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }))
+
 app.use(function (req, res, next) {
     if (!req.session.views) {
         req.session.views = {}
@@ -75,6 +76,7 @@ app.get('/', (req, res) => {
 app.get('/nip/', async (req, res) => {
     let getToday = getTodayDate()
     let url = `${process.env.API_KEY}${req.query.nipInput}?date=${getToday}`;
+    console.log(url)
     await axios.get(url)
         .then((resp) => {
             req.flash('success_msg', 'NIP checked')
@@ -95,7 +97,8 @@ app.post('/', async (req, res) => {
 
     // const directory = __dirname
     // const directory = `${__dirname}/files`
-    const directory = path.join(__dirname, "public")
+    const directory = path.join(__dirname, "files")
+
     let getToday = getTodayDate()
 
     if (req.files) {
@@ -106,15 +109,13 @@ app.post('/', async (req, res) => {
             if (err) {
                 req.flash('error_msg', `Error while uploading file.
                                         Directory: ${directory}`)
-                //res.redirect('/')
+                res.redirect('/')
             } else {
                 try {
+                    // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
-
-                        console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
-
                         const response = await axios({
                             url: `${process.env.API_KEY}${nip}?date=${getToday}`,
                             method: 'GET'
@@ -134,10 +135,6 @@ app.post('/', async (req, res) => {
                     // Run all promises
                     const results = await Promise.all(promises)
 
-
-
-
-
                     //files.writeIntoCSV(results)
 
                     // Success
@@ -151,10 +148,9 @@ app.post('/', async (req, res) => {
 
                 } catch (err) {
                     //Error
-                    // console.log(err)
+                    console.log(err)
                     req.flash('error_msg', 'Error while uploading file.')
-                    res.send(err)
-                    //res.redirect('/')
+                    res.redirect('/')
 
                     // Delete provided files
                     //deleteFile(directory, filename)
@@ -185,6 +181,7 @@ app.listen(port, () => {
 
 function deleteFile(filePath, fileName) {
 
+    //const directory = `${filePath}/${fileName}`
     fs.readdir(filePath, (err, files) => {
         if (err) throw err
         fs.unlink(path.join(filePath, fileName), err => {
@@ -196,7 +193,7 @@ function deleteFile(filePath, fileName) {
 function deleteAllFiles() {
 
     // const directory = `${__dirname}/files`
-    const directory = path.join(__dirname, 'public')
+    const directory = path.join(__dirname, 'files')
     //Delete all uploaded files
     fs.readdir(directory, (err, files) => {
         if (err) throw err
@@ -222,7 +219,6 @@ function deleteAllFiles() {
 }
 
 function getTodayDate() {
-
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1; //January is 0!

@@ -109,6 +109,7 @@ app.post('/', async (req, res) => {
                 //res.redirect('/')
             } else {
                 try {
+                    // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {

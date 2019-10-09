@@ -109,16 +109,16 @@ app.post('/', async (req, res) => {
                 //res.redirect('/')
             } else {
                 try {
+                    // let resData = fs.readFileSync(`${directory}${fileName}`, "utf-8").split("\r\n");
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
-
                     const promises = resData.map(async nip => {
-
-                        console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
 
                         const response = await axios({
                             url: `${process.env.API_KEY}${nip}?date=${getToday}`,
                             method: 'GET'
                         })
+                        console.log(nip)
+
 
                         if (response.data) {
                             return {
@@ -133,10 +133,6 @@ app.post('/', async (req, res) => {
 
                     // Run all promises
                     const results = await Promise.all(promises)
-
-
-
-
 
                     //files.writeIntoCSV(results)
 
