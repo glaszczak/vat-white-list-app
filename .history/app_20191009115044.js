@@ -76,7 +76,7 @@ app.get('/', (req, res) => {
 // Single NIP Check Route
 app.get('/nip/', async (req, res) => {
     let getToday = getTodayDate()
-    let url = `${process.env.API_KEY}${req.query.nipInput}?date=${getToday}`;
+    let url = `process.env.API_KEY${req.query.nipInput}?date=${getToday}`;
     await axios.get(url)
         .then((resp) => {
             req.flash('success_msg', 'NIP checked')
@@ -115,7 +115,7 @@ app.post('/', async (req, res) => {
 
                     const promises = resData.map(async nip => {
                         const response = await axios({
-                            url: `${process.env.API_KEY}${nip}?date=${getToday}`,
+                            url: `process.env.API_KEY${nip}?date=${getToday}`,
                             method: 'GET'
                         })
 

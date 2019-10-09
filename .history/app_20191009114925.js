@@ -73,10 +73,18 @@ app.get('/', (req, res) => {
 })
 
 
+/*
+api url:  (bankAccount?date)
+https://wl-api.mf.gov.pl/api/search/bank-account/{bank-account}?date=2019-01-01
+https://wl-api.mf.gov.pl/api/search/nip/{nip}?date=2019-01-01
+//let bankAccount = 15114010780000407309001001
+*/
+
+
 // Single NIP Check Route
 app.get('/nip/', async (req, res) => {
     let getToday = getTodayDate()
-    let url = `${process.env.API_KEY}${req.query.nipInput}?date=${getToday}`;
+    let url = `https://wl-api.mf.gov.pl/api/search/nip/${req.query.nipInput}?date=${getToday}`;
     await axios.get(url)
         .then((resp) => {
             req.flash('success_msg', 'NIP checked')
@@ -115,7 +123,7 @@ app.post('/', async (req, res) => {
 
                     const promises = resData.map(async nip => {
                         const response = await axios({
-                            url: `${process.env.API_KEY}${nip}?date=${getToday}`,
+                            url: `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${getToday}`,
                             method: 'GET'
                         })
 
