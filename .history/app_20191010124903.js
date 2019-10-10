@@ -111,7 +111,13 @@ app.post('/', async (req, res) => {
                 try {
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
+                    resData.forEach(el => console.log(el))
+
+
                     const promises = resData.map(async nip => {
+
+                        // console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
                         const response = await axios({
                             url: `${process.env.API_KEY}${nip}?date=${getToday}`,
                             method: 'GET'
@@ -132,8 +138,11 @@ app.post('/', async (req, res) => {
                     const results = await Promise.all(promises)
 
 
+
+
+
                     //files.writeIntoCSV(results)
-                    console.log(results)
+
                     // Success
                     // req.flash('success_msg', 'NIPs checked')
                     res.render("nipRes/index", {
@@ -189,6 +198,7 @@ function deleteFile(filePath, fileName) {
 
 function deleteAllFiles() {
 
+    // const directory = `${__dirname}/files`
     const directory = path.join(__dirname, 'public')
     //Delete all uploaded files
     fs.readdir(directory, (err, files) => {
@@ -199,13 +209,13 @@ function deleteAllFiles() {
         }
     })
 
+    const directory1 = `${__dirname}`
     //Delete Result.csv file
-    const directoryCSV = `${__dirname}`
-    fs.readdir(directoryCSV, (err, files) => {
+    fs.readdir(directory1, (err, files) => {
         if (err) throw err
         for (const file of files) {
             if (file === 'Result.csv') {
-                fs.unlink(path.join(directoryCSV, file), err => {
+                fs.unlink(path.join(directory1, file), err => {
                     if (err) throw err
                 })
             }

@@ -20,10 +20,10 @@ async function getNips() {
     nips.forEach(async nip => {
         let singleNip = nip.nip
 
-        axios.get(`https://wl-api.mf.gov.pl/api/search/nip/${singleNip}?date=2019-10-09`)
-            .then(data => console.log(data.data.result.subject.name))
+        axios.get('https://wl-api.mf.gov.pl/api/search/nip/${singleNip}?date=2019-10-09')
+            .then(data => console.log(data))
             .catch(err => {
-                console.log(err.header)
+                console.log(err)
             })
 
 

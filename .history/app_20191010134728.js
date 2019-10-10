@@ -112,20 +112,40 @@ app.post('/', async (req, res) => {
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
-                        const response = await axios({
-                            url: `${process.env.API_KEY}${nip}?date=${getToday}`,
-                            method: 'GET'
-                        })
+                        const apiKey = process.env.API_KEY
+                        await axios.get(`${apiKey}${nip}?date=${getToday}`)
+                            .then((response) => {
+                                // console.log(response.data.result.subject.name);
+                                return {
+                                    nip: response.data.result.subject.nip,
+                                    name: response.data.result.subject.name,
+                                    workingAddress: response.data.result.subject.workingAddress,
+                                    status: response.data.result.subject.statusVat,
+                                    accountNumbers: response.data.result.subject.accountNumbers
+                                }
 
-                        if (response.data) {
-                            return {
-                                nip: nip,
-                                name: response.data.result.subject.name,
-                                workingAddress: response.data.result.subject.workingAddress,
-                                status: response.data.result.subject.statusVat,
-                                accountNumbers: response.data.result.subject.accountNumbers
-                            }
-                        }
+                            }, (error) => {
+                                console.log(error);
+                            });
+
+                        // console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
+                        // console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
+                        // const response = await axios({
+                        //     url: `${process.env.API_KEY}${nip}?date=${getToday}`,
+                        //     method: 'GET'
+                        // })
+
+                        // if (response.data) {
+                        //     return {
+                        //         nip: nip,
+                        //         name: response.data.result.subject.name,
+                        //         workingAddress: response.data.result.subject.workingAddress,
+                        //         status: response.data.result.subject.statusVat,
+                        //         accountNumbers: response.data.result.subject.accountNumbers
+                        //     }
+                        // }
                     })
 
                     // Run all promises
@@ -200,12 +220,13 @@ function deleteAllFiles() {
     })
 
     //Delete Result.csv file
-    const directoryCSV = `${__dirname}`
-    fs.readdir(directoryCSV, (err, files) => {
+    const directory1 = `${__dirname}`
+
+    fs.readdir(directory1, (err, files) => {
         if (err) throw err
         for (const file of files) {
             if (file === 'Result.csv') {
-                fs.unlink(path.join(directoryCSV, file), err => {
+                fs.unlink(path.join(directory1, file), err => {
                     if (err) throw err
                 })
             }

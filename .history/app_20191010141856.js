@@ -112,6 +112,9 @@ app.post('/', async (req, res) => {
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
+
+                        console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
                         const response = await axios({
                             url: `${process.env.API_KEY}${nip}?date=${getToday}`,
                             method: 'GET'

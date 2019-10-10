@@ -112,28 +112,51 @@ app.post('/', async (req, res) => {
                     let resData = fs.readFileSync(path.join(directory, filename), "utf-8").split("\r\n");
 
                     const promises = resData.map(async nip => {
-                        const response = await axios({
-                            url: `${process.env.API_KEY}${nip}?date=${getToday}`,
-                            method: 'GET'
-                        })
 
-                        if (response.data) {
-                            return {
-                                nip: nip,
-                                name: response.data.result.subject.name,
-                                workingAddress: response.data.result.subject.workingAddress,
-                                status: response.data.result.subject.statusVat,
-                                accountNumbers: response.data.result.subject.accountNumbers
-                            }
-                        }
+                        axios.get(`${process.env.API_KEY}${nip}?date=${getToday}`)
+                            .then((response) => {
+                                console.log(response.data.result.subject.name);
+                                return {
+                                    nip: response.data.result.subject.nip,
+                                    name: response.data.result.subject.name,
+                                    workingAddress: response.data.result.subject.workingAddress,
+                                    status: response.data.result.subject.statusVat,
+                                    accountNumbers: response.data.result.subject.accountNumbers
+                                }
+
+                            }, (error) => {
+                                console.log(error);
+                            });
+
+                        // console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
+                        // console.log(`${process.env.API_KEY}${nip}?date=${getToday}`)
+
+                        // const response = await axios({
+                        //     url: `${process.env.API_KEY}${nip}?date=${getToday}`,
+                        //     method: 'GET'
+                        // })
+
+                        // if (response.data) {
+                        //     return {
+                        //         nip: nip,
+                        //         name: response.data.result.subject.name,
+                        //         workingAddress: response.data.result.subject.workingAddress,
+                        //         status: response.data.result.subject.statusVat,
+                        //         accountNumbers: response.data.result.subject.accountNumbers
+                        //     }
+                        // }
                     })
 
                     // Run all promises
                     const results = await Promise.all(promises)
 
 
+
+
+
                     //files.writeIntoCSV(results)
-                    console.log(results)
+
                     // Success
                     // req.flash('success_msg', 'NIPs checked')
                     res.render("nipRes/index", {
@@ -189,28 +212,29 @@ function deleteFile(filePath, fileName) {
 
 function deleteAllFiles() {
 
-    const directory = path.join(__dirname, 'public')
-    //Delete all uploaded files
-    fs.readdir(directory, (err, files) => {
-        for (const file of files) {
-            fs.unlink(path.join(directory, file), err => {
-                if (err) throw err
-            })
-        }
-    })
+    // // const directory = `${__dirname}/files`
+    // const directory = path.join(__dirname, 'public')
+    // //Delete all uploaded files
+    // fs.readdir(directory, (err, files) => {
+    //     for (const file of files) {
+    //         fs.unlink(path.join(directory, file), err => {
+    //             if (err) throw err
+    //         })
+    //     }
+    // })
 
-    //Delete Result.csv file
-    const directoryCSV = `${__dirname}`
-    fs.readdir(directoryCSV, (err, files) => {
-        if (err) throw err
-        for (const file of files) {
-            if (file === 'Result.csv') {
-                fs.unlink(path.join(directoryCSV, file), err => {
-                    if (err) throw err
-                })
-            }
-        }
-    })
+    // const directory1 = `${__dirname}`
+    // //Delete Result.csv file
+    // fs.readdir(directory1, (err, files) => {
+    //     if (err) throw err
+    //     for (const file of files) {
+    //         if (file === 'Result.csv') {
+    //             fs.unlink(path.join(directory1, file), err => {
+    //                 if (err) throw err
+    //             })
+    //         }
+    //     }
+    // })
 }
 
 function getTodayDate() {

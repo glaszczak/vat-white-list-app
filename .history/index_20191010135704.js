@@ -19,22 +19,13 @@ async function getNips() {
 
     nips.forEach(async nip => {
         let singleNip = nip.nip
-
-        axios.get(`https://wl-api.mf.gov.pl/api/search/nip/${singleNip}?date=2019-10-09`)
-            .then(data => console.log(data.data.result.subject.name))
-            .catch(err => {
-                console.log(err.header)
+        try {
+            await axios.get(`https://wl-api.mf.gov.pl/api/search/nip/${singleNip}?date=2019-10-09`).then(resp => {
+                console.log(resp.data.result.subject.name)
             })
-
-
-        // try {
-        //     await axios.get(`https://wl-api.mf.gov.pl/api/search/nip/${singleNip}?date=2019-10-09`).then(resp => {
-        //         console.log(resp.data.result.subject.name)
-        //     })
-        // } catch (err) {
-        //     console.log(err.header)
-        // }
-
+        } catch (err) {
+            console.log(err.header)
+        }
 
     })
 
