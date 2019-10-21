@@ -133,7 +133,7 @@ app.post('/nipsList/', (req, res) => {
             const result = resData.map(async nip => {
 
                 let url = `${process.env.API_KEY}${nip}?date=${getToday}`;
-                await axios.get(url)
+                axios.get(url)
                     .then((resp) => {
                         // console.log(resp.data.result.subject)
                         return {
@@ -166,7 +166,7 @@ app.post('/nipsList/', (req, res) => {
             })
 
             // Run all promises
-            const results = await Promise.all(result)
+            // const results = await Promise.all(promises)
 
 
             // Save as csv file

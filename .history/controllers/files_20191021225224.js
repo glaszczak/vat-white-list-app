@@ -1,11 +1,12 @@
 const fs = require("fs");
+const path = require("path");
 const csv = require("fast-csv");
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-function writeIntoCSV(data) {
+function async writeIntoCSV(data) {
     //${__dirname}/files/
     const csvWriter = createCsvWriter({
-        path: 'Result.csv',
+        path: path.join('../public', 'Result.csv'),
         header: [{
             id: 'nip',
             title: 'NIP'

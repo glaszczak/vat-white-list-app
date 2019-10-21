@@ -5,7 +5,7 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 function writeIntoCSV(data) {
     //${__dirname}/files/
     const csvWriter = createCsvWriter({
-        path: 'Result.csv',
+        path: `Result.csv`,
         header: [{
             id: 'nip',
             title: 'NIP'
@@ -20,11 +20,11 @@ function writeIntoCSV(data) {
         },
         {
             id: 'status',
-            title: 'Status'
+            title: "Status"
         },
         {
             id: 'accountNumbers',
-            title: 'Accounts'
+            title: 'Accounts',
         }
         ]
     });

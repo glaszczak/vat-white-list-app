@@ -166,14 +166,14 @@ app.post('/nipsList/', (req, res) => {
             })
 
             // Run all promises
-            const results = await Promise.all(result)
+            // const results = await Promise.all(promises)
 
 
             // Save as csv file
             files.writeIntoCSV(result)
 
             res.render("nipRes/index", {
-                resData: result
+                resData: results
             })
 
         }

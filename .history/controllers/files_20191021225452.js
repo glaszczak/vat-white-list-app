@@ -2,7 +2,7 @@ const fs = require("fs");
 const csv = require("fast-csv");
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-function writeIntoCSV(data) {
+async function writeIntoCSV(data) {
     //${__dirname}/files/
     const csvWriter = createCsvWriter({
         path: 'Result.csv',

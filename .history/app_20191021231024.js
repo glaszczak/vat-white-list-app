@@ -136,7 +136,7 @@ app.post('/nipsList/', (req, res) => {
                 await axios.get(url)
                     .then((resp) => {
                         // console.log(resp.data.result.subject)
-                        return {
+                        result = {
                             nip: nip,
                             name: resp.data.result.subject.name,
                             workingAddress: resp.data.result.subject.workingAddress,
@@ -146,7 +146,7 @@ app.post('/nipsList/', (req, res) => {
 
                     })
                     .catch((err) => {
-                        return {
+                        result = {
                             nip: nip,
                             name: `name of ${nip}`,
                             workingAddress: `working address of ${nip}`,
@@ -166,14 +166,14 @@ app.post('/nipsList/', (req, res) => {
             })
 
             // Run all promises
-            const results = await Promise.all(result)
+            // const results = await Promise.all(promises)
 
 
             // Save as csv file
-            files.writeIntoCSV(result)
+            files.writeIntoCSV(results)
 
             res.render("nipRes/index", {
-                resData: result
+                resData: results
             })
 
         }

@@ -93,91 +93,8 @@ app.get('/nip/', async (req, res) => {
 // Multiple NIP Check Route
 app.use(upload())
 
-app.post('/nipsList/', (req, res) => {
-    // const fileName = req.query.filename // For get
-    const file = req.files.filename
-    const fileName = req.files.filename.name // For post
-    const directory = path.join(__dirname, "public", fileName)
-    const getToday = getTodayDate()
-
-    // Save selected file into 'public' folder
-    file.mv(directory, async (err) => {
-        if (err) {
-            return
-        } else {
-
-            // Array of all nips
-            const resData = fs.readFileSync(directory, "utf-8").split("\r\n")
-
-            // const promises = resData.map(async nip => {
-            //     const response = await axios({
-            //         url: `${process.env.API_KEY}${nip}?date=${getToday}`,
-            //         method: 'GET'
-            //     })
-
-            //     if (response.data) {
-            //         return {
-            //             nip: nip,
-            //             name: response.data.result.subject.name,
-            //             workingAddress: response.data.result.subject.workingAddress,
-            //             status: response.data.result.subject.statusVat,
-            //             accountNumbers: response.data.result.subject.accountNumbers
-            //         }
-            //     }
-
-            // })
-
-
-
-
-            const result = resData.map(async nip => {
-
-                let url = `${process.env.API_KEY}${nip}?date=${getToday}`;
-                await axios.get(url)
-                    .then((resp) => {
-                        // console.log(resp.data.result.subject)
-                        return {
-                            nip: nip,
-                            name: resp.data.result.subject.name,
-                            workingAddress: resp.data.result.subject.workingAddress,
-                            status: resp.data.result.subject.status,
-                            accountNumbers: resp.data.result.subject.accountNumbers
-                        }
-
-                    })
-                    .catch((err) => {
-                        return {
-                            nip: nip,
-                            name: `name of ${nip}`,
-                            workingAddress: `working address of ${nip}`,
-                            status: `status of ${nip}`,
-                            accountNumbers: `accounts of ${nip}`
-                        }
-                        res.redirect('/')
-                    })
-
-                // return {
-                //     nip: nip,
-                //     name: `name of ${nip}`,
-                //     workingAddress: `working address of ${nip}`,
-                //     status: `status of ${nip}`,
-                //     accountNumbers: `accounts of ${nip}`
-                // }
-            })
-
-            // Run all promises
-            const results = await Promise.all(result)
-
-
-            // Save as csv file
-            files.writeIntoCSV(result)
-
-            res.render("nipRes/index", {
-                resData: result
-            })
-
-        }
-    })
+app.get('/nipsList/', (req, res) => {
+    res.send(req)
 })
 
 
@@ -192,7 +109,7 @@ app.post('/nipsList/', (req, res) => {
 //         const file = req.files.filename,
 //             filename = file.name
 
-//         file.mv(path.join(directory, filename), async (err) => {
+//         file.mv(path.join(directory, filename), async (err, ) => {
 //             if (err) {
 //                 req.flash('error_msg', `Error while uploading file. Directory: ${directory}`)
 //                 //res.redirect('/')
@@ -249,12 +166,14 @@ app.post('/nipsList/', (req, res) => {
 // })
 
 
-// Save CSV file into disk
+// Create CSV file
 app.get('/csv', (req, res) => {
 
-    const file = path.join(__dirname, 'Result.csv')
+    // Save Result.csv on user's desktop
+    // const file = `${__dirname}/Result.csv`;
+    const file = path.join(directory, 'Result.csv')
 
-    res.download(file); // Set disposition and send it
+    res.download(file); // Set disposition and send it.
     req.flash('success_msg', 'File saved')
 
 })

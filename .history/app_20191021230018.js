@@ -98,10 +98,9 @@ app.post('/nipsList/', (req, res) => {
     const file = req.files.filename
     const fileName = req.files.filename.name // For post
     const directory = path.join(__dirname, "public", fileName)
-    const getToday = getTodayDate()
 
     // Save selected file into 'public' folder
-    file.mv(directory, async (err) => {
+    file.mv(directory, (err) => {
         if (err) {
             return
         } else {
@@ -109,64 +108,32 @@ app.post('/nipsList/', (req, res) => {
             // Array of all nips
             const resData = fs.readFileSync(directory, "utf-8").split("\r\n")
 
-            // const promises = resData.map(async nip => {
-            //     const response = await axios({
-            //         url: `${process.env.API_KEY}${nip}?date=${getToday}`,
-            //         method: 'GET'
-            //     })
-
-            //     if (response.data) {
-            //         return {
-            //             nip: nip,
-            //             name: response.data.result.subject.name,
-            //             workingAddress: response.data.result.subject.workingAddress,
-            //             status: response.data.result.subject.statusVat,
-            //             accountNumbers: response.data.result.subject.accountNumbers
-            //         }
-            //     }
-
-            // })
+            const promises = resData.map(async nip => {
+                const response = await axios({
+                    url: `${process.env.API_KEY}${nip}?date=${getToday}`,
+                    method: 'GET'
+                })
+            })
 
 
 
 
-            const result = resData.map(async nip => {
 
-                let url = `${process.env.API_KEY}${nip}?date=${getToday}`;
-                await axios.get(url)
-                    .then((resp) => {
-                        // console.log(resp.data.result.subject)
-                        return {
-                            nip: nip,
-                            name: resp.data.result.subject.name,
-                            workingAddress: resp.data.result.subject.workingAddress,
-                            status: resp.data.result.subject.status,
-                            accountNumbers: resp.data.result.subject.accountNumbers
-                        }
 
-                    })
-                    .catch((err) => {
-                        return {
-                            nip: nip,
-                            name: `name of ${nip}`,
-                            workingAddress: `working address of ${nip}`,
-                            status: `status of ${nip}`,
-                            accountNumbers: `accounts of ${nip}`
-                        }
-                        res.redirect('/')
-                    })
 
-                // return {
-                //     nip: nip,
-                //     name: `name of ${nip}`,
-                //     workingAddress: `working address of ${nip}`,
-                //     status: `status of ${nip}`,
-                //     accountNumbers: `accounts of ${nip}`
-                // }
+
+            const result = resData.map(nip => {
+                return {
+                    nip: nip,
+                    name: `name of ${nip}`,
+                    workingAddress: `working address of ${nip}`,
+                    status: `status of ${nip}`,
+                    accountNumbers: `accounts of ${nip}`
+                }
             })
 
             // Run all promises
-            const results = await Promise.all(result)
+
 
 
             // Save as csv file

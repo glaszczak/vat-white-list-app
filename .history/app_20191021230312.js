@@ -127,53 +127,25 @@ app.post('/nipsList/', (req, res) => {
 
             // })
 
-
-
-
-            const result = resData.map(async nip => {
-
-                let url = `${process.env.API_KEY}${nip}?date=${getToday}`;
-                await axios.get(url)
-                    .then((resp) => {
-                        // console.log(resp.data.result.subject)
-                        return {
-                            nip: nip,
-                            name: resp.data.result.subject.name,
-                            workingAddress: resp.data.result.subject.workingAddress,
-                            status: resp.data.result.subject.status,
-                            accountNumbers: resp.data.result.subject.accountNumbers
-                        }
-
-                    })
-                    .catch((err) => {
-                        return {
-                            nip: nip,
-                            name: `name of ${nip}`,
-                            workingAddress: `working address of ${nip}`,
-                            status: `status of ${nip}`,
-                            accountNumbers: `accounts of ${nip}`
-                        }
-                        res.redirect('/')
-                    })
-
-                // return {
-                //     nip: nip,
-                //     name: `name of ${nip}`,
-                //     workingAddress: `working address of ${nip}`,
-                //     status: `status of ${nip}`,
-                //     accountNumbers: `accounts of ${nip}`
-                // }
-            })
+            // const result = resData.map(nip => {
+            //     return {
+            //         nip: nip,
+            //         name: `name of ${nip}`,
+            //         workingAddress: `working address of ${nip}`,
+            //         status: `status of ${nip}`,
+            //         accountNumbers: `accounts of ${nip}`
+            //     }
+            // })
 
             // Run all promises
-            const results = await Promise.all(result)
+            const results = await Promise.all(promises)
 
 
             // Save as csv file
-            files.writeIntoCSV(result)
+            files.writeIntoCSV(results)
 
             res.render("nipRes/index", {
-                resData: result
+                resData: results
             })
 
         }
